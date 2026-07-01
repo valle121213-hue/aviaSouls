@@ -50,11 +50,13 @@ public class Ticket implements Comparable<Ticket> {
                 && Objects.equals(from, ticket.from)
                 && Objects.equals(to, ticket.to);
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(from, to, price, timeFrom, timeTo);
     }
-// Сравнение по цене
+
+    // Сравнение по цене
     @Override
     public int compareTo(Ticket other) {
         if (this.price < other.price) {

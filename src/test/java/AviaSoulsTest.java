@@ -6,7 +6,6 @@ import java.util.Comparator;
 import static org.junit.jupiter.api.Assertions.*;
 
 
-
 public class AviaSoulsTest {
     //Проверка класса Ticket
     //Тесты для get
@@ -88,6 +87,7 @@ public class AviaSoulsTest {
 
         assertFalse(t1.equals(t2));
     }
+
     //Разные to
     @Test
     void equals_diffTo() {
@@ -96,22 +96,24 @@ public class AviaSoulsTest {
 
         assertFalse(t1.equals(t2));
     }
-//Разные price
-@Test
-void equals_diffPrice() {
-    Ticket t1 = new Ticket("AND", "ERV", 1000, 12, 15);
-    Ticket t2 = new Ticket("AND", "ERV", 12000, 12, 15);
 
-    assertFalse(t1.equals(t2));
-}
-//Разные timeFrom
-@Test
-void equals_diffTimeFrom() {
-    Ticket t1 = new Ticket("AND", "ERV", 1000, 12, 15);
-    Ticket t2 = new Ticket("AND", "ERV", 1000, 13, 15);
+    //Разные price
+    @Test
+    void equals_diffPrice() {
+        Ticket t1 = new Ticket("AND", "ERV", 1000, 12, 15);
+        Ticket t2 = new Ticket("AND", "ERV", 12000, 12, 15);
 
-    assertFalse(t1.equals(t2));
-}
+        assertFalse(t1.equals(t2));
+    }
+
+    //Разные timeFrom
+    @Test
+    void equals_diffTimeFrom() {
+        Ticket t1 = new Ticket("AND", "ERV", 1000, 12, 15);
+        Ticket t2 = new Ticket("AND", "ERV", 1000, 13, 15);
+
+        assertFalse(t1.equals(t2));
+    }
 
     //Разные timeTo
     @Test
@@ -121,6 +123,7 @@ void equals_diffTimeFrom() {
 
         assertFalse(t1.equals(t2));
     }
+
     // проверка hashCode
     @Test
     void hashCode_equalObjects() {
@@ -129,7 +132,8 @@ void equals_diffTimeFrom() {
 
         assertEquals(t1.hashCode(), t2.hashCode());
     }
-//!!!!!!Добавила
+
+    //!!!!!!Добавила
     @Test
     void hashCode_notEqualObjects() {
         Ticket t1 = new Ticket("A", "B", 100, 1, 2);
@@ -137,6 +141,7 @@ void equals_diffTimeFrom() {
 
         assertNotEquals(t1.hashCode(), t2.hashCode());
     }
+
     @Test
     void search_fromDoesNotMatch() {
         AviaSouls manager = new AviaSouls();
@@ -148,6 +153,7 @@ void equals_diffTimeFrom() {
 
         assertEquals(0, result.length);
     }
+
     @Test
     void searchAndSortBy_emptyManager() {
         AviaSouls manager = new AviaSouls();
@@ -174,75 +180,75 @@ void equals_diffTimeFrom() {
     }
 //Тесты для проверки compareTo 3 ветки
 
-// Цена дешевле
-@Test
-public void shouldReturnMinusOneIfFirstTicketIsCheaper() {
-    Ticket first = new Ticket("EVN", "DME", 5000, 10, 13);
-    Ticket second = new Ticket("EVN", "DME", 8000, 17, 18);
+    // Цена дешевле
+    @Test
+    public void shouldReturnMinusOneIfFirstTicketIsCheaper() {
+        Ticket first = new Ticket("EVN", "DME", 5000, 10, 13);
+        Ticket second = new Ticket("EVN", "DME", 8000, 17, 18);
 
-    assertEquals(-1, first.compareTo(second));
-}
+        assertEquals(-1, first.compareTo(second));
+    }
 
-// Цена дороже
-@Test
-public void shouldReturnOneIfFirstTicketIsExpensive() {
-    Ticket first = new Ticket("EVN", "DME", 15000, 10, 13);
-    Ticket second = new Ticket("EVN", "DME", 8000, 17, 18);
+    // Цена дороже
+    @Test
+    public void shouldReturnOneIfFirstTicketIsExpensive() {
+        Ticket first = new Ticket("EVN", "DME", 15000, 10, 13);
+        Ticket second = new Ticket("EVN", "DME", 8000, 17, 18);
 
-    assertEquals(1, first.compareTo(second));
-}
+        assertEquals(1, first.compareTo(second));
+    }
 
-// Цена одинакова
-@Test
-public void shouldReturnZeroIfPricesEqual() {
-    Ticket first = new Ticket("EVN", "DME", 8000, 10, 13);
-    Ticket second = new Ticket("EVN", "DME", 8000, 17, 18);
+    // Цена одинакова
+    @Test
+    public void shouldReturnZeroIfPricesEqual() {
+        Ticket first = new Ticket("EVN", "DME", 8000, 10, 13);
+        Ticket second = new Ticket("EVN", "DME", 8000, 17, 18);
 
-    assertEquals(0, first.compareTo(second));
-}
+        assertEquals(0, first.compareTo(second));
+    }
 
 // Проверка класса AviaSouls
 
 
-// Проверка метода add
-@Test
-public void shouldAddOneTicket() {
-    AviaSouls manager = new AviaSouls();
+    // Проверка метода add
+    @Test
+    public void shouldAddOneTicket() {
+        AviaSouls manager = new AviaSouls();
 
-    Ticket ticket = new Ticket(
-            "ERV",
-            "LED",
-            5000,
-            10,
-            12
-    );
+        Ticket ticket = new Ticket(
+                "ERV",
+                "LED",
+                5000,
+                10,
+                12
+        );
 
-    manager.add(ticket);
+        manager.add(ticket);
 
-    Ticket[] expected = {ticket};
-    Ticket[] actual = manager.findAll();
+        Ticket[] expected = {ticket};
+        Ticket[] actual = manager.findAll();
 
-    Assertions.assertArrayEquals(expected, actual);
-}
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
-// несколько билетов и за одно findAll()
-@Test
-public void shouldAddSomeTickets() {
-    AviaSouls manager = new AviaSouls();
+    // несколько билетов и за одно findAll()
+    @Test
+    public void shouldAddSomeTickets() {
+        AviaSouls manager = new AviaSouls();
 
-    Ticket first = new Ticket("MOW", "LED", 15000, 10, 12);
-    Ticket second = new Ticket("ERV", "KZN", 60000, 11, 13);
-    Ticket third = new Ticket("LED", "MOW", 17000, 14, 16);
+        Ticket first = new Ticket("MOW", "LED", 15000, 10, 12);
+        Ticket second = new Ticket("ERV", "KZN", 60000, 11, 13);
+        Ticket third = new Ticket("LED", "MOW", 17000, 14, 16);
 
-    manager.add(first);
-    manager.add(second);
-    manager.add(third);
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
 
-    Ticket[] expected = {first, second, third};
-    Ticket[] actual = manager.findAll();
+        Ticket[] expected = {first, second, third};
+        Ticket[] actual = manager.findAll();
 
-    Assertions.assertArrayEquals(expected, actual);
-}
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
 
 //Проверка дополненного метода search по возрастанию
@@ -291,193 +297,192 @@ public void shouldAddSomeTickets() {
     }
 
 
+    //Расстановка по увеличению цены
+    @Test
+    public void shouldSearchAndSortByPrice() {
+        AviaSouls manager = new AviaSouls();
 
-//Расстановка по увеличению цены
-@Test
-public void shouldSearchAndSortByPrice() {
-    AviaSouls manager = new AviaSouls();
+        Ticket first = new Ticket("EVN", "LED", 12000, 10, 12);
+        Ticket second = new Ticket("EVN", "LED", 8000, 9, 11);
+        Ticket third = new Ticket("EVN", "LED", 9000, 8, 10);
 
-    Ticket first = new Ticket("EVN", "LED", 12000, 10, 12);
-    Ticket second = new Ticket("EVN", "LED", 8000, 9, 11);
-    Ticket third = new Ticket("EVN", "LED", 9000, 8, 10);
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
 
-    manager.add(first);
-    manager.add(second);
-    manager.add(third);
+        Ticket[] expected = {second, third, first};
+        Ticket[] actual = manager.search("EVN", "LED");
 
-    Ticket[] expected = {second, third, first};
-    Ticket[] actual = manager.search("EVN", "LED");
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
-    Assertions.assertArrayEquals(expected, actual);
-}
+    // Совпадений нет
+    @Test
+    public void shouldReturnIfNoTicketsFound() {
+        AviaSouls manager = new AviaSouls();
 
-// Совпадений нет
-@Test
-public void shouldReturnIfNoTicketsFound() {
-    AviaSouls manager = new AviaSouls();
+        Ticket first = new Ticket("EVN", "LED", 12000, 10, 12);
+        Ticket second = new Ticket("EVN", "LED", 8000, 9, 11);
+        Ticket third = new Ticket("EVN", "LED", 9000, 8, 10);
 
-    Ticket first = new Ticket("EVN", "LED", 12000, 10, 12);
-    Ticket second = new Ticket("EVN", "LED", 8000, 9, 11);
-    Ticket third = new Ticket("EVN", "LED", 9000, 8, 10);
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
 
-    manager.add(first);
-    manager.add(second);
-    manager.add(third);
+        Ticket[] expected = {};
+        Ticket[] actual = manager.search("MOW", "KZN");
 
-    Ticket[] expected = {};
-    Ticket[] actual = manager.search("MOW", "KZN");
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
-    Assertions.assertArrayEquals(expected, actual);
-}
+    //Найден только один билет
+    @Test
+    public void shouldReturnIfFoundOneTicket() {
+        AviaSouls manager = new AviaSouls();
 
-//Найден только один билет
-@Test
-public void shouldReturnIfFoundOneTicket() {
-    AviaSouls manager = new AviaSouls();
+        Ticket first = new Ticket("EVN", "SPB", 12000, 10, 12);
+        Ticket second = new Ticket("ERV", "EKZ", 8000, 9, 11);
+        Ticket third = new Ticket("EVN", "LED", 9000, 8, 10);
 
-    Ticket first = new Ticket("EVN", "SPB", 12000, 10, 12);
-    Ticket second = new Ticket("ERV", "EKZ", 8000, 9, 11);
-    Ticket third = new Ticket("EVN", "LED", 9000, 8, 10);
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
 
-    manager.add(first);
-    manager.add(second);
-    manager.add(third);
+        Ticket[] expected = {second};
+        Ticket[] actual = manager.search("ERV", "EKZ");
 
-    Ticket[] expected = {second};
-    Ticket[] actual = manager.search("ERV", "EKZ");
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
-    Assertions.assertArrayEquals(expected, actual);
-}
-
-// Проверка класса TicketTimeComparator
+    // Проверка класса TicketTimeComparator
 //]Проверка 3 веток метода compare - первый рейс летит быстрее
-@Test
-public void shouldCompareByFlightTimeLess() {
-    Ticket first = new Ticket("ERV", "LED", 15000, 10, 13);   // 3 часа
-    Ticket second = new Ticket("ERV", "LED", 15000, 10, 15);  // 5 часов
+    @Test
+    public void shouldCompareByFlightTimeLess() {
+        Ticket first = new Ticket("ERV", "LED", 15000, 10, 13);   // 3 часа
+        Ticket second = new Ticket("ERV", "LED", 15000, 10, 15);  // 5 часов
 
-    TicketTimeComparator comparator = new TicketTimeComparator();
+        TicketTimeComparator comparator = new TicketTimeComparator();
 
-    assertEquals(-1, comparator.compare(first, second));
-}
+        assertEquals(-1, comparator.compare(first, second));
+    }
 
-//Второй рейс быстрее
-@Test
-public void shouldCompareByFlightTimeMore() {
-    Ticket first = new Ticket("ERV", "LED", 15000, 10, 16);   // 6 часов
-    Ticket second = new Ticket("ERV", "LED", 15000, 9, 11);  // 3 часа
+    //Второй рейс быстрее
+    @Test
+    public void shouldCompareByFlightTimeMore() {
+        Ticket first = new Ticket("ERV", "LED", 15000, 10, 16);   // 6 часов
+        Ticket second = new Ticket("ERV", "LED", 15000, 9, 11);  // 3 часа
 
-    TicketTimeComparator comparator = new TicketTimeComparator();
+        TicketTimeComparator comparator = new TicketTimeComparator();
 
-    assertEquals(1, comparator.compare(first, second));
-}
+        assertEquals(1, comparator.compare(first, second));
+    }
 
-//Оба летят одинаково
-@Test
-public void shouldCompareByFlightTimeEqual() {
-    Ticket first = new Ticket("ERV", "LED", 5000, 10, 14);   // 4 часа
-    Ticket second = new Ticket("ERV", "LED", 7000, 9, 13);  // 4 часа
+    //Оба летят одинаково
+    @Test
+    public void shouldCompareByFlightTimeEqual() {
+        Ticket first = new Ticket("ERV", "LED", 5000, 10, 14);   // 4 часа
+        Ticket second = new Ticket("ERV", "LED", 7000, 9, 13);  // 4 часа
 
-    TicketTimeComparator comparator = new TicketTimeComparator();
+        TicketTimeComparator comparator = new TicketTimeComparator();
 
-    assertEquals(0, comparator.compare(first, second));
-}
+        assertEquals(0, comparator.compare(first, second));
+    }
 
-// Сортировка билетов по времени полета
-@Test
-public void shouldSearchAndSortByFlightTime() {
-    AviaSouls manager = new AviaSouls();
+    // Сортировка билетов по времени полета
+    @Test
+    public void shouldSearchAndSortByFlightTime() {
+        AviaSouls manager = new AviaSouls();
 
-    Ticket first = new Ticket("MOW", "LED", 21000, 10, 16);   // 6 часов
-    Ticket second = new Ticket("MOW", "LED", 17000, 10, 12);  // 2 часа
-    Ticket third = new Ticket("MOW", "LED", 16000, 10, 14);   // 4 часа
+        Ticket first = new Ticket("MOW", "LED", 21000, 10, 16);   // 6 часов
+        Ticket second = new Ticket("MOW", "LED", 17000, 10, 12);  // 2 часа
+        Ticket third = new Ticket("MOW", "LED", 16000, 10, 14);   // 4 часа
 
-    manager.add(first);
-    manager.add(second);
-    manager.add(third);
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
 
-    TicketTimeComparator comparator = new TicketTimeComparator();
+        TicketTimeComparator comparator = new TicketTimeComparator();
 
-    Ticket[] expected = {second, third, first};
-    Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
+        Ticket[] expected = {second, third, first};
+        Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
 
-    Assertions.assertArrayEquals(expected, actual);
-}
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
-// Результат не найден
-@Test
-public void shouldReturnSearchAndSortByNothingFound() {
-    AviaSouls manager = new AviaSouls();
+    // Результат не найден
+    @Test
+    public void shouldReturnSearchAndSortByNothingFound() {
+        AviaSouls manager = new AviaSouls();
 
-    manager.add(new Ticket("ERV", "LED", 15000, 10, 12));
+        manager.add(new Ticket("ERV", "LED", 15000, 10, 12));
 
-    TicketTimeComparator comparator = new TicketTimeComparator();
+        TicketTimeComparator comparator = new TicketTimeComparator();
 
-    Ticket[] expected = {};
-    Ticket[] actual = manager.searchAndSortBy("MOW", "KZN", comparator);
+        Ticket[] expected = {};
+        Ticket[] actual = manager.searchAndSortBy("MOW", "KZN", comparator);
 
-    Assertions.assertArrayEquals(expected, actual);
-}
+        Assertions.assertArrayEquals(expected, actual);
+    }
 
-// для TicketTimeThenPriceComparator (понравилось задание - дополнительный метод)
-@Test
-public void shouldCompareByFlightTimeMoreComparatorTP() {
-    Ticket first = new Ticket("MOW", "LED", 5000, 10, 16);   // 6 часов
-    Ticket second = new Ticket("MOW", "LED", 7000, 10, 12);  // 2 часа
+    // для TicketTimeThenPriceComparator (понравилось задание - дополнительный метод)
+    @Test
+    public void shouldCompareByFlightTimeMoreComparatorTP() {
+        Ticket first = new Ticket("MOW", "LED", 5000, 10, 16);   // 6 часов
+        Ticket second = new Ticket("MOW", "LED", 7000, 10, 12);  // 2 часа
 
-    TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
+        TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
 
-    int actual = comparator.compare(first, second);
+        int actual = comparator.compare(first, second);
 
-    assertEquals(1, actual);
-}
+        assertEquals(1, actual);
+    }
 
-@Test
-public void shouldCompareByFlightTimeLessComparatorTP() {
-    Ticket first = new Ticket("MOW", "LED", 5000, 10, 12);   // 2 часа
-    Ticket second = new Ticket("MOW", "LED", 7000, 10, 15);  // 5 часов
+    @Test
+    public void shouldCompareByFlightTimeLessComparatorTP() {
+        Ticket first = new Ticket("MOW", "LED", 5000, 10, 12);   // 2 часа
+        Ticket second = new Ticket("MOW", "LED", 7000, 10, 15);  // 5 часов
 
-    TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
+        TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
 
-    int actual = comparator.compare(first, second);
+        int actual = comparator.compare(first, second);
 
-    assertEquals(-1, actual);
-}
+        assertEquals(-1, actual);
+    }
 
-@Test
-public void shouldCompareByPriceWhenTimeEqualLess() {
-    Ticket first = new Ticket("MOW", "LED", 5000, 10, 12);   // 2 часа
-    Ticket second = new Ticket("MOW", "LED", 7000, 14, 16);  // 2 часа
+    @Test
+    public void shouldCompareByPriceWhenTimeEqualLess() {
+        Ticket first = new Ticket("MOW", "LED", 5000, 10, 12);   // 2 часа
+        Ticket second = new Ticket("MOW", "LED", 7000, 14, 16);  // 2 часа
 
-    TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
+        TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
 
-    int actual = comparator.compare(first, second);
+        int actual = comparator.compare(first, second);
 
-    assertEquals(-1, actual);
-}
+        assertEquals(-1, actual);
+    }
 
-@Test
-public void shouldCompareByPriceWhenTimeEqualMore() {
-    Ticket first = new Ticket("MOW", "LED", 9000, 10, 12);   // 2 часа
-    Ticket second = new Ticket("MOW", "LED", 7000, 14, 16);  // 2 часа
+    @Test
+    public void shouldCompareByPriceWhenTimeEqualMore() {
+        Ticket first = new Ticket("MOW", "LED", 9000, 10, 12);   // 2 часа
+        Ticket second = new Ticket("MOW", "LED", 7000, 14, 16);  // 2 часа
 
-    TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
+        TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
 
-    int actual = comparator.compare(first, second);
+        int actual = comparator.compare(first, second);
 
-    assertEquals(1, actual);
-}
+        assertEquals(1, actual);
+    }
 
-@Test
-public void shouldCompareEqualTimeAndEqualPrice() {
-    Ticket first = new Ticket("MOW", "LED", 7000, 10, 12);   // 2 часа
-    Ticket second = new Ticket("MOW", "LED", 7000, 14, 16);  // 2 часа
+    @Test
+    public void shouldCompareEqualTimeAndEqualPrice() {
+        Ticket first = new Ticket("MOW", "LED", 7000, 10, 12);   // 2 часа
+        Ticket second = new Ticket("MOW", "LED", 7000, 14, 16);  // 2 часа
 
-    TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
+        TicketTimeThenPriceComparator comparator = new TicketTimeThenPriceComparator();
 
-    int actual = comparator.compare(first, second);
+        int actual = comparator.compare(first, second);
 
-    assertEquals(0, actual);
-}
+        assertEquals(0, actual);
+    }
 
 }
