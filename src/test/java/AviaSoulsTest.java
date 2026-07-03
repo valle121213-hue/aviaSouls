@@ -133,7 +133,7 @@ public class AviaSoulsTest {
         assertEquals(t1.hashCode(), t2.hashCode());
     }
 
-    //!!!!!!Добавила
+    //Добавила
     @Test
     void hashCode_notEqualObjects() {
         Ticket t1 = new Ticket("A", "B", 100, 1, 2);
@@ -143,7 +143,7 @@ public class AviaSoulsTest {
     }
 
     @Test
-    void search_fromDoesNotMatch() {
+    void shouldNotFindTicketsWhenRouteDoesNotMatch() {
         AviaSouls manager = new AviaSouls();
 
         manager.add(new Ticket("AAA", "LED", 1000, 10, 12));
@@ -209,7 +209,6 @@ public class AviaSoulsTest {
 
 // Проверка класса AviaSouls
 
-
     // Проверка метода add
     @Test
     public void shouldAddOneTicket() {
@@ -251,26 +250,10 @@ public class AviaSoulsTest {
     }
 
 
-//Проверка дополненного метода search по возрастанию
+//Проверка дополненного метода search (по возрастанию цены)
 
 
-//searchAndSortBy с comparator
-
-    @Test
-    void searchAndSortBy_withComparator() {
-        AviaSouls manager = new AviaSouls();
-
-        manager.add(new Ticket("MOW", "LED", 1000, 10, 12));
-        manager.add(new Ticket("MOW", "LED", 500, 10, 15));
-
-        Comparator<Ticket> cmp = new TicketTimeComparator();
-
-        Ticket[] result = manager.searchAndSortBy("MOW", "LED", cmp);
-
-        assertEquals(2, result.length);
-    }
-
-    //from совпадает, to НЕ совпадает
+    //from совпадает, to НЕ совпадает для метода search
     @Test
     void search_coverToFalseBranch() {
         AviaSouls manager = new AviaSouls();
@@ -283,7 +266,7 @@ public class AviaSoulsTest {
         assertEquals(1, result.length);
     }
 
-    //from НЕ совпадает, to совпадает
+    //from НЕ совпадает, to совпадает для метода search
     @Test
     void search_onlyToMatches() {
         AviaSouls manager = new AviaSouls();
@@ -297,9 +280,9 @@ public class AviaSoulsTest {
     }
 
 
-    //Расстановка по увеличению цены
+    //Найдено несколько совпадений, результат возвращается по увеличению цены для метода search
     @Test
-    public void shouldSearchAndSortByPrice() {
+    public void shouldFindAndSortTicketsByPrice() {
         AviaSouls manager = new AviaSouls();
 
         Ticket first = new Ticket("EVN", "LED", 12000, 10, 12);
@@ -316,9 +299,28 @@ public class AviaSoulsTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    // Совпадений нет
+    //Доработка
+    //Найдено несколько билетов с одной ценой метод search
     @Test
-    public void shouldReturnIfNoTicketsFound() {
+    void shouldFindTicketsWithEqualPrice() {
+        AviaSouls manager = new AviaSouls();
+
+        Ticket first = new Ticket("MOW", "LED", 5000, 10, 12);
+        Ticket second = new Ticket("MOW", "LED", 5000, 15, 17);
+
+        manager.add(first);
+        manager.add(second);
+
+        Ticket[] expected = {first, second};
+        Ticket[] actual = manager.search("MOW", "LED");
+
+        assertArrayEquals(expected, actual);
+    }
+
+
+    // Совпадений нет для метода search
+    @Test
+    public void shouldReturnEmptyArrayWhenNothingFound() {
         AviaSouls manager = new AviaSouls();
 
         Ticket first = new Ticket("EVN", "LED", 12000, 10, 12);
@@ -335,9 +337,9 @@ public class AviaSoulsTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    //Найден только один билет
+    //Найден только один билет для метода search
     @Test
-    public void shouldReturnIfFoundOneTicket() {
+    public void shouldFindOneTicket() {
         AviaSouls manager = new AviaSouls();
 
         Ticket first = new Ticket("EVN", "SPB", 12000, 10, 12);
@@ -352,6 +354,39 @@ public class AviaSoulsTest {
         Ticket[] actual = manager.search("ERV", "EKZ");
 
         Assertions.assertArrayEquals(expected, actual);
+    }
+
+    //метод searchAndSortBy с comparator
+
+    @Test
+    void searchAndSortBy_withComparator() {
+        AviaSouls manager = new AviaSouls();
+
+        manager.add(new Ticket("MOW", "LED", 1000, 10, 12));
+        manager.add(new Ticket("MOW", "LED", 500, 10, 15));
+
+        Comparator<Ticket> cmp = new TicketTimeComparator();
+
+        Ticket[] result = manager.searchAndSortBy("MOW", "LED", cmp);
+
+        assertEquals(2, result.length);
+    }
+
+    //Доработка
+    //Метод searchAndSortBy() найден один билет
+    @Test
+    void shouldFindOneTicketByComparator() {
+        AviaSouls manager = new AviaSouls();
+
+        Ticket ticket = new Ticket("MOW", "LED", 5000, 10, 12);
+        manager.add(ticket);
+
+        TicketTimeComparator comparator = new TicketTimeComparator();
+
+        Ticket[] expected = {ticket};
+        Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
+
+        assertArrayEquals(expected, actual);
     }
 
     // Проверка класса TicketTimeComparator
