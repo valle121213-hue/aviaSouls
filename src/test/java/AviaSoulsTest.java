@@ -154,6 +154,10 @@ public class AviaSoulsTest {
         assertEquals(0, result.length);
     }
 
+
+    // Проверка метода searchAndSortBy
+
+    // Метод searchAndSortBy Пустой менеджер
     @Test
     void searchAndSortBy_emptyManager() {
         AviaSouls manager = new AviaSouls();
@@ -166,6 +170,7 @@ public class AviaSoulsTest {
         assertArrayEquals(expected, actual);
     }
 
+    //Метод searchAndSortBy from совпадает, to не совпадает
     @Test
     void searchAndSortBy_fromMatchesToDoesNotMatch() {
         AviaSouls manager = new AviaSouls();
@@ -178,6 +183,76 @@ public class AviaSoulsTest {
 
         assertEquals(0, actual.length);
     }
+
+    //метод searchAndSortBy с comparator
+
+    @Test
+    void searchAndSortBy_withComparator() {
+        AviaSouls manager = new AviaSouls();
+
+        manager.add(new Ticket("MOW", "LED", 1000, 10, 12));
+        manager.add(new Ticket("MOW", "LED", 500, 10, 15));
+
+        Comparator<Ticket> cmp = new TicketTimeComparator();
+
+        Ticket[] result = manager.searchAndSortBy("MOW", "LED", cmp);
+
+        assertEquals(2, result.length);
+    }
+
+    // Сортировка билетов по времени полета метод searchAndSortBy
+    @Test
+    public void shouldSearchAndSortByFlightTime() {
+        AviaSouls manager = new AviaSouls();
+
+        Ticket first = new Ticket("MOW", "LED", 21000, 10, 16);   // 6 часов
+        Ticket second = new Ticket("MOW", "LED", 17000, 10, 12);  // 2 часа
+        Ticket third = new Ticket("MOW", "LED", 16000, 10, 14);   // 4 часа
+
+        manager.add(first);
+        manager.add(second);
+        manager.add(third);
+
+        TicketTimeComparator comparator = new TicketTimeComparator();
+
+        Ticket[] expected = {second, third, first};
+        Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    // Результат не найден метод searchAndSortBy
+    @Test
+    public void shouldReturnSearchAndSortByNothingFound() {
+        AviaSouls manager = new AviaSouls();
+
+        manager.add(new Ticket("ERV", "LED", 15000, 10, 12));
+
+        TicketTimeComparator comparator = new TicketTimeComparator();
+
+        Ticket[] expected = {};
+        Ticket[] actual = manager.searchAndSortBy("MOW", "KZN", comparator);
+
+        Assertions.assertArrayEquals(expected, actual);
+    }
+
+    //Доработка
+    //Метод searchAndSortBy() найден один билет
+    @Test
+    void shouldFindOneTicketByComparator() {
+        AviaSouls manager = new AviaSouls();
+
+        Ticket ticket = new Ticket("MOW", "LED", 5000, 10, 12);
+        manager.add(ticket);
+
+        TicketTimeComparator comparator = new TicketTimeComparator();
+
+        Ticket[] expected = {ticket};
+        Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
+
+        assertArrayEquals(expected, actual);
+    }
+
 //Тесты для проверки compareTo 3 ветки
 
     // Цена дешевле
@@ -356,38 +431,6 @@ public class AviaSoulsTest {
         Assertions.assertArrayEquals(expected, actual);
     }
 
-    //метод searchAndSortBy с comparator
-
-    @Test
-    void searchAndSortBy_withComparator() {
-        AviaSouls manager = new AviaSouls();
-
-        manager.add(new Ticket("MOW", "LED", 1000, 10, 12));
-        manager.add(new Ticket("MOW", "LED", 500, 10, 15));
-
-        Comparator<Ticket> cmp = new TicketTimeComparator();
-
-        Ticket[] result = manager.searchAndSortBy("MOW", "LED", cmp);
-
-        assertEquals(2, result.length);
-    }
-
-    //Доработка
-    //Метод searchAndSortBy() найден один билет
-    @Test
-    void shouldFindOneTicketByComparator() {
-        AviaSouls manager = new AviaSouls();
-
-        Ticket ticket = new Ticket("MOW", "LED", 5000, 10, 12);
-        manager.add(ticket);
-
-        TicketTimeComparator comparator = new TicketTimeComparator();
-
-        Ticket[] expected = {ticket};
-        Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
-
-        assertArrayEquals(expected, actual);
-    }
 
     // Проверка класса TicketTimeComparator
 //]Проверка 3 веток метода compare - первый рейс летит быстрее
@@ -423,41 +466,6 @@ public class AviaSoulsTest {
         assertEquals(0, comparator.compare(first, second));
     }
 
-    // Сортировка билетов по времени полета
-    @Test
-    public void shouldSearchAndSortByFlightTime() {
-        AviaSouls manager = new AviaSouls();
-
-        Ticket first = new Ticket("MOW", "LED", 21000, 10, 16);   // 6 часов
-        Ticket second = new Ticket("MOW", "LED", 17000, 10, 12);  // 2 часа
-        Ticket third = new Ticket("MOW", "LED", 16000, 10, 14);   // 4 часа
-
-        manager.add(first);
-        manager.add(second);
-        manager.add(third);
-
-        TicketTimeComparator comparator = new TicketTimeComparator();
-
-        Ticket[] expected = {second, third, first};
-        Ticket[] actual = manager.searchAndSortBy("MOW", "LED", comparator);
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
-
-    // Результат не найден
-    @Test
-    public void shouldReturnSearchAndSortByNothingFound() {
-        AviaSouls manager = new AviaSouls();
-
-        manager.add(new Ticket("ERV", "LED", 15000, 10, 12));
-
-        TicketTimeComparator comparator = new TicketTimeComparator();
-
-        Ticket[] expected = {};
-        Ticket[] actual = manager.searchAndSortBy("MOW", "KZN", comparator);
-
-        Assertions.assertArrayEquals(expected, actual);
-    }
 
     // для TicketTimeThenPriceComparator (понравилось задание - дополнительный метод)
     @Test
